@@ -17,7 +17,7 @@ import Third from './Third'
 
 const App = props => {
 
-      const [fruits, setFruits] = useState([]);
+    const [fruits, setFruits] = useState([]);
     const [createFormInput, setCreateFormInput] = useState({});
     const [createErr, setCreateErr] = useState("");
     const [createSuccess, setCreateSuccess] = useState(false);
@@ -43,18 +43,17 @@ const App = props => {
       }, []);
 
     
-    //Do this whenever the form input is changed / whenever setCreateFormInput is called.
-    useEffect(() => {
-      console.log(createFormInput);
-    }, [createFormInput]);
-
-
     //To track the input for creating a new fruit
     const createFruitInputTracker = (nameOfField, inputData) => {
       setCreateFormInput((previousValues) => {
         return { ...previousValues, [nameOfField]: inputData };
       });
     };
+
+    //Do this whenever the form input is changed / whenever setCreateFormInput is called.
+    useEffect(() => {
+      console.log(createFormInput);
+    }, [createFormInput]);
 
     const editFruitInputTracker = (nameOfField, inputData) => {
       setEditFormInput((previousValues)=> {
@@ -63,10 +62,11 @@ const App = props => {
     }
 
     const submitEditHandler = (e) => {
-
       if (editingFruit.name.length < 1 || editingFruit.weight.length < 1) {
         return
       }
+
+      console.log(`Payload for axios patch:`, {fruit: editFormInput})
 
       axios
         .patch(`/api/v1/fruits/${editingFruit.id}`, { fruit: editFormInput })
