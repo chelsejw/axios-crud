@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Third = (props)=> {
+const Edit = (props)=> {
     return (
       <div>
         <h1>Editing: {props.fruit.name}</h1>
@@ -38,4 +38,4 @@ const Third = (props)=> {
     );
 }
 
-export default Third
+export default Edit

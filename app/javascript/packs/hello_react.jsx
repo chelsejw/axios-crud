@@ -10,9 +10,9 @@ const token = document.querySelector("[name=csrf-token]").content;
 axios.defaults.headers.common["X-CSRF-TOKEN"] = token;
 
 
-import First from './First'
-import Second from './Second'
-import Third from './Third'
+import Display from './Display'
+import Create from './Create'
+import Edit from './Edit'
 
 
 const App = props => {
@@ -24,12 +24,7 @@ const App = props => {
     const [editingFruit, setEditingFruit] = useState({name: "", weight: ""})
     const [editFormInput, setEditFormInput] = useState({});
 
-    const editButton = (fruit) => {
-      setEditingFruit(fruit)
-      setEditFormInput(fruit)
-      console.log(fruit)
-    }
-    //DO THIS WHENEVER THE APP IS LOADED.
+    //DO THIS WHENEVER THE APP IS LOADED (get all fruit data)
       useEffect(() => {
         axios
           .get("/api/v1/fruits")
@@ -85,10 +80,22 @@ const App = props => {
 
     }
 
+    //When yellow edit button is pressed, set state and form to be targeted fruit.
+        const editButton = (fruit) => {
+          setEditingFruit(fruit);
+          setEditFormInput(fruit);
+          console.log(fruit);
+        };
+
+        //Track changes for editing fruit.
     useEffect(()=>{
       console.log(`Editing fruit changed!`)
       console.log(editingFruit)
     }, [editingFruit])
+
+
+
+        //Track changes for editing form input.
 
     useEffect(() => {
       console.log(`Edit form input changed!`)
@@ -96,8 +103,11 @@ const App = props => {
     }, [editFormInput]);
 
 
+    //For the delete buttons
+    
     const deleteButtonHandler = (name, fruitId) => {
 
+      //Alert to confirm if user wants to delete
       const confirmation = confirm(`Are you sure you want to delete ${name}?`)
 
       if (confirmation) {
@@ -121,10 +131,10 @@ const App = props => {
     }
     
 
-    const submitHandler = (e) => {
+    //For create fruit
+    
+    const submitHandler = () => {
       setCreateErr("");
-      e.preventDefault();
-
       setCreateFormInput({name: "", weight: ""})
 
       //Some validation.
@@ -158,10 +168,10 @@ const App = props => {
       <div className="container">
         <div className="row">
           <div className="col">
-            <First data={fruits} edit={editButton} delete={deleteButtonHandler}/>
+            <Display data={fruits} edit={editButton} delete={deleteButtonHandler}/>
           </div>
           <div className="col">
-            <Second
+            <Create
               tracker={createFruitInputTracker}
               err={createErr}
               input={createFormInput}
@@ -170,7 +180,7 @@ const App = props => {
             />
           </div>
           <div className="col">
-            <Third tracker={editFruitInputTracker} submit={submitEditHandler} input={editFormInput} fruit={editingFruit}/>
+            <Edit tracker={editFruitInputTracker} submit={submitEditHandler} input={editFormInput} fruit={editingFruit}/>
           </div>
         </div>
       </div>

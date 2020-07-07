@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 
 import moment from 'moment';
 
-const First = (props)=> {
+const Display = (props)=> {
 
       const fruitElements = props.data.map((fruit) => {
         return (
@@ -45,4 +45,4 @@ const First = (props)=> {
     )
 }
 
-export default First
+export default Display;

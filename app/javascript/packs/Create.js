@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React from 'react'
 
-
-const Second = (props)=> {
+const Create = (props)=> {
     return (
       <div>
         <h1>New Fruit</h1>
@@ -31,7 +29,7 @@ const Second = (props)=> {
         </div>
 
         <button
-          onClick={(e) => props.submitHandler(e)}
+          onClick={() => props.submitHandler()}
           className="mt-3 btn btn-block btn-success"
         >
           Submit
@@ -40,4 +38,4 @@ const Second = (props)=> {
     );
 }
 
-export default Second
+export default Create
