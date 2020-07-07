@@ -63,19 +63,36 @@ const App = props => {
     }
 
     const submitEditHandler = (e) => {
-      setEditingFruit({name: "", weight: ""})
-      setEditFormInput({name: "", weight: ""})
 
-      axios.patch(`/api/v1/fruits/${editingFruit.id}`, {fruit: editingFruit})
-      .then(res => {
-        console.log(res.data)
-      })
-      .catch(err => {
-        console.log(`Error while editing fruit`)
-        console.log(err)
-      })
+      if (editingFruit.name.length < 1 || editingFruit.weight.length < 1) {
+        return
+      }
+
+      axios
+        .patch(`/api/v1/fruits/${editingFruit.id}`, { fruit: editFormInput })
+        .then((res) => {
+          console.log(res.data);
+          const updatedFruits = fruits.map((fruit) => {
+            return (parseInt(fruit.id) == parseInt(res.data[0].id) ? res.data[0] : fruit)
+          });
+
+          console.log(updatedFruits)
+
+          setFruits(updatedFruits);
+          setEditingFruit({ name: "", weight: "" });
+          setEditFormInput({ name: "", weight: "" });
+        })
+        .catch((err) => {
+          console.log(`Error while editing fruit`);
+          console.log(err);
+        });
 
     }
+
+
+    const deleteButtonHandler = () => {
+    }
+    
 
     const submitHandler = (e) => {
       setCreateErr("");

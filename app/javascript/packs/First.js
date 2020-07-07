@@ -9,7 +9,7 @@ const First = (props)=> {
               Fruit ID: #{fruit.id}
               <br/>Name: {fruit.name}
               <br/>Weight: {fruit.weight} kg
-              <button className="btn btn-sm btn-warning" onClick={()=> {props.editBtn(fruit)}}>Edit</button>
+              <br/><button className="mt-3 btn btn-sm btn-warning" onClick={()=> {props.editBtn(fruit)}}>Edit {fruit.name}</button>
 
           </div>
         );

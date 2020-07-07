@@ -3,7 +3,7 @@ module Api
         class FruitsController < ApplicationController
 
             def index
-                @fruits = Fruit.all
+                @fruits = Fruit.order(id: :asc)
                 render json: @fruits
             end
 
@@ -14,6 +14,20 @@ module Api
                 else 
                     render json: {errors: @fruit.errors}
                 end
+            end
+
+            def update
+                @fruit = Fruit.where(id: fruit_params[:id])
+                if @fruit.update(fruit_params)
+                    render json: @fruit
+                else
+                    render json: {errors: @fruit.errors}
+                end
+            end
+
+            def destroy
+                @fruit = Fruit.where(id: fruit_params[:id])
+                @fruit.destroy
             end
 
             private
