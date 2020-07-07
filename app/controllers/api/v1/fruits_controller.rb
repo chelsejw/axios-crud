@@ -26,8 +26,7 @@ module Api
             end
 
             def destroy
-                @fruit = Fruit.where(id: fruit_params[:id])
-                @fruit.destroy
+                Fruit.destroy(params[:id])
             end
 
             private

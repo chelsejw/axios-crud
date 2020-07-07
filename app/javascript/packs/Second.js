@@ -12,14 +12,16 @@ const Second = (props)=> {
           id="create-name"
           className="form-control"
           name="name"
+          value={props.input.name}
         />
-        <label htmlFor="weight">Weight</label>
+        <label htmlFor="create-weight">Weight</label>
 
         <input
           onChange={(e) => props.tracker(e.target.name, e.target.value)}
           id="create-weight"
           className="form-control"
-          name="create-weight"
+          name="weight"
+          value={props.input.weight}
         />
 
         <div className="text-danger">{props.err}</div>

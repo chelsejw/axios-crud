@@ -71,16 +71,12 @@ const App = props => {
       axios
         .patch(`/api/v1/fruits/${editingFruit.id}`, { fruit: editFormInput })
         .then((res) => {
-          console.log(res.data);
           const updatedFruits = fruits.map((fruit) => {
             return (parseInt(fruit.id) == parseInt(res.data[0].id) ? res.data[0] : fruit)
           });
-
-          console.log(updatedFruits)
-
           setFruits(updatedFruits);
-          setEditingFruit({ name: "", weight: "" });
-          setEditFormInput({ name: "", weight: "" });
+          setEditingFruit({name: "", weight: "" });
+          setEditFormInput({name: "", weight: "" });
         })
         .catch((err) => {
           console.log(`Error while editing fruit`);
@@ -89,14 +85,47 @@ const App = props => {
 
     }
 
+    useEffect(()=>{
+      console.log(`Editing fruit changed!`)
+      console.log(editingFruit)
+    }, [editingFruit])
 
-    const deleteButtonHandler = () => {
+    useEffect(() => {
+      console.log(`Edit form input changed!`)
+      console.log(editFormInput);
+    }, [editFormInput]);
+
+
+    const deleteButtonHandler = (name, fruitId) => {
+
+      const confirmation = confirm(`Are you sure you want to delete ${name}?`)
+
+      if (confirmation) {
+             axios
+               .delete(`/api/v1/fruits/${fruitId}`)
+               .then((res) => {
+                 console.log(`Response received while deleting.`);
+                 console.log(res);
+
+                 const updatedFruits = fruits.filter((fruit) => {
+                   return parseInt(fruitId) !== parseInt(fruit.id);
+                 });
+
+                 setFruits(updatedFruits);
+               })
+               .catch((err) => {
+                 console.log(`Error while deleteing.`);
+                 console.log(err);
+               });
+      }
     }
     
 
     const submitHandler = (e) => {
       setCreateErr("");
       e.preventDefault();
+
+      setCreateFormInput({name: "", weight: ""})
 
       //Some validation.
       if (createFormInput.name.length < 4 || isNaN(createFormInput.weight)) {
@@ -120,18 +149,22 @@ const App = props => {
           console.log(err);
         });
     };
+
+
+
   return (
     <div>
-      <h1 className="text-center">FRUITS.</h1>
+      <h1 className="text-center">FRUITS</h1>
       <div className="container">
         <div className="row">
           <div className="col">
-            <First data={fruits} editBtn={editButton}/>
+            <First data={fruits} edit={editButton} delete={deleteButtonHandler}/>
           </div>
           <div className="col">
             <Second
               tracker={createFruitInputTracker}
               err={createErr}
+              input={createFormInput}
               submitHandler={submitHandler}
               success={createSuccess}
             />
